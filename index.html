@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perretas Barber</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+  <img src="logo.png" alt="Perretas Barber Logo" class="logo">
+  <h1> Gold Barber </h1>
+  <p>Tu estilo, nuestra pasión</p>
+</header>
+
+  <nav>
+    <a href="#servicios">Servicios</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="servicio">
+      <h3>Corte de Cabello</h3>
+      <p>Corte profesional con estilo.</p>
+    </div>
+    <div class="servicio">
+      <h3>Afeitado</h3>
+      <p>Afeitado clásico y moderno.</p>
+    </div>
+    <div class="servicio">
+      <h3>Barba</h3>
+      <p>Arreglo y diseño de barba.</p>
+    </div>
+  </section>
+
+  <section id="agenda">
+  <h2>Agenda tu cita</h2>
+  <form id="form-agenda">
+    <input type="date" id="fecha" required>
+    <input type="time" id="hora" min="09:00" max="18:00" required>
+    <button type="submit">Agendar</button>
+  </form>
+  <p id="mensaje-confirmacion"></p>
+</section>
+
+  <section id="tienda">
+  <h2>Productos</h2>
+  <div class="producto">
+    <h3>Shampoo para Barba</h3>
+    <p>$9.99</p>
+    <button onclick="agregarAlCarrito('Shampoo para Barba', 9.99)">Agregar al carrito</button>
+  </div>
+  <div class="producto">
+    <h3>Cera para Cabello</h3>
+    <p>$7.99</p>
+    <button onclick="agregarAlCarrito('Cera para Cabello', 7.99)">Agregar al carrito</button>
+  </div>
+
+  <div id="carrito">
+    <h3>🛒 Carrito de Compras</h3>
+    <ul id="lista-carrito"></ul>
+    <p><strong>Total:</strong> $<span id="total">0.00</span></p>
+  </div>
+</section>
+
+  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <p> correo: randyrizb2006@gmail.com</p>
+    <p>Ecuador</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Gold Barber</p>
+  </footer>
+
+  <script>
+  const form = document.getElementById('form-agenda');
+  const mensaje = document.getElementById('mensaje-confirmacion');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+
+    if (fecha && hora) {
+      mensaje.textContent = `✅ ¡Cita agendada para el ${fecha} a las ${hora}h! Nos vemos en Perretas Barber 💈`;
+      mensaje.style.color = 'green';
+      form.reset();
+    } else {
+      mensaje.textContent = '⚠️ Por favor selecciona una fecha y hora.';
+      mensaje.style.color = 'red';
+    }
+  });
+</script>
+
+<script>
+  const listaCarrito = document.getElementById("lista-carrito");
+  const totalElemento = document.getElementById("total");
+
+  let carrito = [];
+
+  function agregarAlCarrito(nombre, precio) {
+    carrito.push({ nombre, precio });
+    mostrarCarrito();
+  }
+
+  function mostrarCarrito() {
+    listaCarrito.innerHTML = "";
+    let total = 0;
+
+    carrito.forEach((producto, index) => {
+      total += producto.precio;
+
+      const item = document.createElement("li");
+      item.innerHTML = `
+        ${producto.nombre} - $${producto.precio.toFixed(2)}
+        <button onclick="eliminarDelCarrito(${index})">❌</button>
+      `;
+      listaCarrito.appendChild(item);
+    });
+
+    totalElemento.textContent = total.toFixed(2);
+  }
+
+  function eliminarDelCarrito(index) {
+    carrito.splice(index, 1); // Elimina el producto por su índice
+    mostrarCarrito(); // Vuelve a mostrar el carrito actualizado
+  }
+</script>
+
+</body>
+</html>
